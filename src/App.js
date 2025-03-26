@@ -1,36 +1,58 @@
 import styled from 'styled-components';
 
 function App() {
-
   const onClickEvent = () => {
-    window.location.replace("https://www.naver.com/");
+    window.location.replace("https://www.Naver.com/");
   }
-  const imageUrl = "https://static.univstore.com/web/image/logo.svg"
-  
+
   return (
-    <Layout>
-      <HomeLogo onClick={()=>{
-        onClickEvent()}
-      }>
-        <img src={imageUrl} style={{width:"281px",height:'88px'}}></img>
-      </HomeLogo>
-      <div>2</div>
-      <div>3</div>
-    </Layout>
+    <div>
+      <Header>
+        <HeaderContainer>
+          <HomeLogo onClick={()=>{onClickEvent()}}>
+           <HomeLogoImg></HomeLogoImg>
+          </HomeLogo>
+          <Nav>
+            <div>2</div>
+            <div>3</div>
+          </Nav>
+        </HeaderContainer>
+      </Header>
+    </div>
   );
 }
 
 export default App;
 
-const Layout = styled.div`
+const imageUrl = "https://static.univstore.com/web/image/logo.svg"
+
+const Header = styled.header`
   display: flex;
   height: 88px;
-  border-bottom: 1px solid
+  border-bottom: 1px solid;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 88px;
+  margin: 0 auto;
 `;
 
 const HomeLogo = styled.div`
-  flex: auto;
-  max-width: 377px;
-  margin-right: 32px;
-  text-indent: -9999px;
+  display: flex;
+  width: 281px;
+  height: 88px;
+`;
+
+const HomeLogoImg = styled.img.attrs({
+  src: imageUrl,
+})`
+  max-width: 100%;
+  max-height: 100%;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  height: 88px;
 `;
