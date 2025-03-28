@@ -1,11 +1,13 @@
-import HomeHeader from "../component/HomeHeader";
-import HomeNav from "../component/HomeNav";
+import Header from "../components/home/Header";
+import MainPage from "../components/home/MainPage";
+import Nav from "../components/home/Nav";
 
 export default function Home() {
     return (
         <div className="Home">
-            <HomeHeader></HomeHeader>
-            <HomeNav></HomeNav>
+            <Header></Header>
+            <Nav></Nav>
+            <MainPage></MainPage>
         </div>
     );
 }

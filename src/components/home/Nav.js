@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export default function HomeNav() {
+export default function Nav() {
     return (
         <NavContainer>
-          <Nav>
+          <Navs>
             <NavLeft>
               <NavLeftButton>디지털</NavLeftButton>
               <NavLeftButton>컴퓨터</NavLeftButton>
@@ -19,7 +19,7 @@ export default function HomeNav() {
               <NavRightButton>혜택/이벤트</NavRightButton>
               <NavRightButton>브랜드</NavRightButton>
             </NavRight>
-          </Nav>
+          </Navs>
         </NavContainer>
     );
 }
@@ -32,7 +32,7 @@ const NavContainer = styled.div`
   margin: 0 auto;
 `;
 
-const Nav = styled.div`
+const Navs = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

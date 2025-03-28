@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export default function HomeHeader() {
+export default function Header() {
   return (
-    <Header>
+    <HeaderLayout>
       <HeaderContainer className="HeaderContainer">
         <HomeLogoContainer>
           <HomeLogo href="/"/>
@@ -12,13 +12,13 @@ export default function HomeHeader() {
           <NavAnchor href="#" >로그인</NavAnchor>
         </Nav>
       </HeaderContainer>
-    </Header>
+    </HeaderLayout>
   );
 }
 
 const imgUrl = "https://static.univstore.com/web/image/logo.svg"
 
-const Header = styled.header`
+const HeaderLayout = styled.header`
   display: flex;
   height: 88px;
   border-bottom: 1px solid #ecedf1;

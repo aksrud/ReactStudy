@@ -29,3 +29,7 @@ div {
   display: block;
   unicode-bidi: isolate;
 }
+
+main{
+  display: block;
+}
