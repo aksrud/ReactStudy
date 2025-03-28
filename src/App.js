@@ -6,15 +6,17 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='App'>
       <Header>
         <HeaderContainer>
-          <HomeLogo onClick={()=>{onClickEvent()}}>
+          <HomeLogo>
            <HomeLogoImg></HomeLogoImg>
           </HomeLogo>
           <Nav>
-            <div>2</div>
-            <div>3</div>
+            <NavAnchor style={{
+              marginRight: "32px"
+            }}>검색</NavAnchor>
+            <NavAnchor>로그인</NavAnchor>
           </Nav>
         </HeaderContainer>
       </Header>
@@ -29,13 +31,15 @@ const imageUrl = "https://static.univstore.com/web/image/logo.svg"
 const Header = styled.header`
   display: flex;
   height: 88px;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #ecedf1;
 `;
 
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   height: 88px;
+  width: 80.625%;
+  max-width: 1032px;
   margin: 0 auto;
 `;
 
@@ -43,6 +47,8 @@ const HomeLogo = styled.div`
   display: flex;
   width: 281px;
   height: 88px;
+  left: 0px;
+  top: 100px;
 `;
 
 const HomeLogoImg = styled.img.attrs({
@@ -55,4 +61,11 @@ const HomeLogoImg = styled.img.attrs({
 const Nav = styled.nav`
   display: flex;
   height: 88px;
+  line-height: 88px;
+`;
+
+const NavAnchor = styled.a`
+  color: #787a87;
+  font-size: 13px;
+  text-decoration: none;
 `;
