@@ -1,26 +1,24 @@
 import styled from "styled-components";
 
-export default function Header() {
+export default function HomeHeader() {
   return (
-    <HeaderLayOut>
+    <Header>
       <HeaderContainer>
-        <HomeLogo>
-          <HomeLogoImg></HomeLogoImg>
-        </HomeLogo>
+        <HomeLogoContainer>
+          <HomeLogo href="/"/>
+        </HomeLogoContainer>
         <Nav>
-          <NavAnchor 
-            style={{marginRight: "32px"}}
-          >검색</NavAnchor>
-          <NavAnchor>로그인</NavAnchor>
+          <NavAnchor href="#" style={{marginRight: "32px"}}>검색</NavAnchor>
+          <NavAnchor href="#" >로그인</NavAnchor>
         </Nav>
       </HeaderContainer>
-    </HeaderLayOut>
+    </Header>
   );
 }
 
-const imageUrl = "https://static.univstore.com/web/image/logo.svg"
+const imgUrl = "https://static.univstore.com/web/image/logo.svg"
 
-const HeaderLayOut = styled.header`
+const Header = styled.header`
   display: flex;
   height: 88px;
   border-bottom: 1px solid #ecedf1;
@@ -35,7 +33,7 @@ const HeaderContainer = styled.div`
   margin: 0 auto;
 `;
 
-const HomeLogo = styled.div`
+const HomeLogoContainer = styled.div`
   display: flex;
   width: 281px;
   height: 88px;
@@ -43,11 +41,14 @@ const HomeLogo = styled.div`
   top: 100px;
 `;
 
-const HomeLogoImg = styled.img.attrs({
-  src: imageUrl,
-})`
-  max-width: 100%;
-  max-height: 100%;
+const HomeLogo = styled.a`
+  background-image: url(${imgUrl});
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 281px;
+  height: 88px;
+  display: block;
 `;
 
 const Nav = styled.nav`
