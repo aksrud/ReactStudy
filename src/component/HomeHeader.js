@@ -3,7 +3,7 @@ import styled from "styled-components";
 export default function HomeHeader() {
   return (
     <Header>
-      <HeaderContainer>
+      <HeaderContainer className="HeaderContainer">
         <HomeLogoContainer>
           <HomeLogo href="/"/>
         </HomeLogoContainer>

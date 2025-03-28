@@ -9,6 +9,7 @@ body {
    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   color: #222;
   font-size: 16px;
+  line-height: 1.2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,4 +23,9 @@ code {
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+div {
+  display: block;
+  unicode-bidi: isolate;
 }
