@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import NavDropDown from "./NavDropDown";
 
 export default function Nav() {
     return (
         <NavContainer>
-          <Navs>
+          <Navs className="navs">
             <NavLeft>
               <NavLeftButton>디지털</NavLeftButton>
               <NavLeftButton>컴퓨터</NavLeftButton>
@@ -20,16 +21,13 @@ export default function Nav() {
               <NavRightButton>브랜드</NavRightButton>
             </NavRight>
           </Navs>
+          <NavDropDown></NavDropDown>
         </NavContainer>
     );
 }
 
 const NavContainer = styled.div`
-  display: flex;
   border-bottom: 1px solid #ecedf1;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 auto;
 `;
 
 const Navs = styled.div`
@@ -37,7 +35,7 @@ const Navs = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  
+
   width: 80.625%;
   max-width: 1032px;
 `;
