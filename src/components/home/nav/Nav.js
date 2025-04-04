@@ -1,8 +1,45 @@
 import styled from "styled-components";
 import NavDropDown from "./NavDropDown";
 import { useState, useRef } from "react";
+import NavLeftButton from "./NavLeftButton";
 
 export default function Nav() {
+
+  const navLefts = [
+    {
+      en: "digital",
+      kr: "디지털",
+    },
+    {
+      en: "computer",
+      kr: "컴퓨터",
+    },
+    {
+      en: "electronic",
+      kr: "가전",
+    },
+    {
+      en: "beauty",
+      kr: "뷰티",
+    },
+    {
+      en: "fashion",
+      kr: "패션",
+    },
+    {
+      en: "fashionacc",
+      kr: "패션잡화",
+    },
+    {
+      en: "smartphone",
+      kr: "스마트폰",
+    },
+    {
+      en: "lifestyle",
+      kr: "라이프스타일",
+    },
+  ]
+
   const [activeCategory, setActiveCategory] = useState(null); // 활성화 할 드롭다운 카테고리
   const [isActive, setIsActive] = useState(false); // 드롭 다운 활성화
   var isHoverRef = useRef(false); // 호버 중인가를 체크
@@ -29,14 +66,11 @@ export default function Nav() {
         <NavContainer>
           <Navs className="navs">
             <NavLeft>
-              <NavLeftButton data-category="digital" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>디지털</NavLeftButton>
-              <NavLeftButton data-category="computer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>컴퓨터</NavLeftButton>
-              <NavLeftButton data-category="electronic" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>가전</NavLeftButton>
-              <NavLeftButton data-category="beauty" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>뷰티</NavLeftButton>
-              <NavLeftButton data-category="fashion" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>패션</NavLeftButton>
-              <NavLeftButton data-category="fashionacc" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>패션잡화</NavLeftButton>
-              <NavLeftButton data-category="smartphone" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>스마트폰</NavLeftButton>
-              <NavLeftButton data-category="lifestyle" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>라이프스타일</NavLeftButton>
+              {navLefts.map((n, idx)=>{
+                return (
+                  <NavLeftButton key={idx} data_category={n.en} active={activeCategory === n.en && isActive} content={n.kr} OME={handleMouseEnter} OML={handleMouseLeave}></NavLeftButton>
+                );
+              })}
             </NavLeft>
             <NavRight>
               <NavRightButton>콘텐츠</NavRightButton>
@@ -67,13 +101,7 @@ const NavLeft = styled.div`
   display: flex;
   margin-left: -12px;
 `;
-const NavLeftButton = styled.div`
-  position: relative;
-  display: inline-block;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 21px 12px;
-`;
+
 const NavRight = styled.div`
   margin-right: -12px;
 `;
