@@ -38,3 +38,13 @@ a{
   color: inherit;
   text-decoration: none;
 }
+
+/* 슬라이드 전용 css */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: black !important;
+}

@@ -31,7 +31,7 @@ export default function MainPage() {
   function slideChange (swiper) {
     let curSlide = swiper.slides[swiper.activeIndex];
     let e = curSlide.querySelector("a");
-    let c = e.getAttribute("data-backgroundColor");
+    let c = e.getAttribute("data-backgroundcolor");
     setColor(c);
   }
   return (
@@ -43,19 +43,53 @@ export default function MainPage() {
               style={{
                 position: "absolute",
                 left: 0,
-                top: 0
+                top: 0,
+                width: "100%",
+                height: "100%"
               }}
               loop={true}
               slidesPerView={1}
               modules={[Navigation, Pagination, Autoplay]}
-              navigation
+              navigation = {{
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+              }}
               pagination={{ clickable: true }}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               onSlideChange={slideChange}
             >
               {slides.map((slide)=>{
-                return <SwiperSlide key={slide.id}><a href="#!" data-backgroundColor={slide.color}><img src={slide.src} alt="slide"></img></a></SwiperSlide>
+                return <SwiperSlide key={slide.id}><a href="#!" data-backgroundcolor={slide.color}><img src={slide.src} alt="slide"></img></a></SwiperSlide>
               })}
+              <div className='swiper-button-prev' style={{
+                backgroundImage: `url("https://www.univstore.com/image/ic-arrow-forward-black.png")`,
+                left: 0,
+                transform: `rotate(180deg)`,
+                backgroundSize: "24px",
+                backgroundPosition: `center`,
+                backgroundRepeat: `no-repeat`,
+                top: 0,
+                width: "48px",
+                height: "100%",
+                backgroundPositionX: "16px",
+                right: "auto",
+                position: "absolute"
+              }}>
+              </div>
+              <div className='swiper-button-next' style={{
+                backgroundImage: `url("https://www.univstore.com/image/ic-arrow-forward-black.png")`,
+                right: 0,
+                backgroundSize: "24px",
+                backgroundPosition: `center`,
+                backgroundRepeat: `no-repeat`,
+                top: 0,
+                width: "48px",
+                height: "100%",
+                backgroundPositionX: "16px",
+                left: "auto",
+                position: "absolute"
+              }}>
+              </div>
             </StyledSwiper>
           </CarouselInner>
         </Carousel>
@@ -90,4 +124,11 @@ const StyledSwiper = styled(Swiper)`
   top: 0;
   width: 100%;
   height: 100%;
+
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  z-index: 1;
 `;
