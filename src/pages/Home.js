@@ -1,5 +1,5 @@
 import Header from "../components/home/Header";
-import MainPage from "../components/home/MainPage";
+import MainPageBasic from "../components/home/MainPageBasic";
 import Nav from "../components/home/nav/Nav";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
         <div className="Home">
             <Header></Header>
             <Nav></Nav>
-            <MainPage></MainPage>
+            <MainPageBasic></MainPageBasic>
         </div>
     );
 }
