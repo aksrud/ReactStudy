@@ -71,12 +71,46 @@ export default function MainPageBasic() {
             </SliderWrapper>
             <SwiperButtonPrev onClick={()=>{slideChange(index-1)}}></SwiperButtonPrev>
             <SwiperButtonNext onClick={()=>{slideChange(index+1)}}></SwiperButtonNext>
+            <SwiperNav>
+              {Array(SlideLength-2)
+              .fill()
+              .map((_, idx)=>{
+                return (
+                  <SwiperNavButton
+                    key={idx}
+                    onClick={()=>slideChange(idx+1)}
+                    style={{
+                      backgroundColor : "#000",
+                      opacity: (index !== idx) ? ".2" : ""
+                    }}
+                  ></SwiperNavButton>
+                );
+              })
+              }
+            </SwiperNav>
           </CarouselInner>
         </Carousel>
       </MainBanner>
     </MainPageLayout>
   );
 }
+
+const SwiperNav  = styled.nav`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
+  display: flex;
+  gap: 5px;
+`;
+
+const SwiperNavButton = styled.button`
+  padding: 0;
+  
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+`;
 
 const MainPageLayout = styled.main`
   min-height: 616.734px;
