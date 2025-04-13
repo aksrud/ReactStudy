@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export default function NavLeftButton({data_category, active, content, OME, OML}) {
-  console.log(content);
   return (
     <NavLeftButtonS style={{
       color: active ? 'red' : 'black'

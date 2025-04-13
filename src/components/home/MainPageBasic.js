@@ -1,70 +1,67 @@
-import { useState } from "react";
+import {useRef, useState } from "react";
 import styled from "styled-components";
 
 export default function MainPageBasic() {
-  const [color, setColor] = useState("#FFFFFF");
-  const [index, setIndex] = useState(0);
+  const [col, setColor] = useState("#FFFFFF");
+  const [index, setIndex] = useState(1);
+  const [transition, setTransition] = useState(true);
+  const isTransition = useRef(false);
 
   const Slides = [
-    {idx:0, color:"#373737", src:"https://image.univstore.com/20250314_hp_intel_ccf_brandweek_373737_web_maintop.png"},
-    {idx:1, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_mba_m4_preorder_164200_web_maintop.jpg"},
-    {idx:2, color:"#e5d0dd", src:"https://image.univstore.com/20250122_lg_gram_pro_launching_e5d0dd_web_maintop.png"},
-    {idx:3, color:"#e0f1f7", src:"https://image.univstore.com/20250210_samsung_galaxybook5_intel_lunarlake_58524_web_maintop.jpg"},
-    {idx:4, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_ipadair_m3_announce_web_maintop.jpg"},
-    {idx:5, color:"#ccc9b9", src:"https://image.univstore.com/20250317_perfumehub_brandweek_web_maintop_CCC9B9.png"},
-    {idx:6, color:"#6585f7", src:"https://image.univstore.com/20250108_samsung_galaxytab_academy_58240_6584f5_web_maintop.png"},
-    {idx:7, color:"#626d77", src:"https://image.univstore.com/20240708_hp_AI_week_web_maintop_626D77.png"},
-    {idx:8, color:"#87cbfc", src:"https://image.univstore.com/20250317_everyuneez_finedust_web_maintop_92D3FF.png"},
-    {idx:9, color:"#dae7e9", src:"https://image.univstore.com/20250211_samsung_tabphone_web_maintop.png"},
-    {idx:10, color:"#faf0f0", src:"https://image.univstore.com/20250317_bose_brandweek_faf0f0_web_maintop.png"},
-    {idx:11, color:"#ffb4c2", src:"https://image.univstore.com/20250211_everyuneez_review_event_web_maintop_FFB4C2.png"},
-    {idx:12, color:"#f6ffbe", src:"https://image.univstore.com/20250301_everyuneez_everybeauty_web_maintop_F7FFBE.png"},
-    {idx:13, color:"#fffbd1", src:"https://image.univstore.com/20240429_univ_camera_promotion_fffbd1_web_maintop.png"},
-    {idx:14, color:"#373737", src:"https://image.univstore.com/20250314_hp_intel_ccf_brandweek_373737_web_maintop.png"},
-    {idx:15, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_mba_m4_preorder_164200_web_maintop.jpg"},
-  ]
+    {id:12, color:"#ffe0ed", src:"https://image.univstore.com/20250407_perfumehub_brandweek_web_maintop.png"},
+    {id:0, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_mba_m4_preorder_164200_web_maintop.jpg"},
+    {id:1, color:"#6588b8", src:"https://image.univstore.com/20250403_samsung_galaxytabs10fe_6688b9_web_maintop.png"},
+    {id:2, color:"#FFFFFF", src:"https://image.univstore.com/20250403_apple_ipadair_m3_preorder_web_maintop.jpg"},
+    {id:3, color:"#e6ffe5", src:"https://image.univstore.com/20250401_samsung_galaxybook5_promotion_e6ffe5_web_maintop.png"},
+    {id:4, color:"#ddddff", src:"https://image.univstore.com/20250113_dyson_dyson_brandweek_web_maintop_DDDDFE.png"},
+    {id:5, color:"#ebdcd7", src:"https://image.univstore.com/20250217_sony_audio_brandweek_ebdcd7_web_maintop.png"},
+    {id:6, color:"#dae7e9", src:"https://image.univstore.com/20250211_samsung_tabphone_web_maintop.png"},
+    {id:7, color:"#cecece", src:"https://image.univstore.com/20250407_canon_powershotv1_launching_web_maintop_CFCFCF.jpg"},
+    {id:8, color:"#c9ced2", src:"https://image.univstore.com/20250219_sennheiser_nukak_v2_c9ced2_web_maintop.png"},
+    {id:9, color:"#fbd9ed", src:"https://image.univstore.com/20250407_lg_gram_lunarlake_launching_rev2_fbd8ec_web_maintop.png"},
+    {id:10, color:"#fff8f3", src:"https://image.univstore.com/20250407_microsoft_windows11_eos_fff8f3_web_maintop.png"},
+    {id:11, color:"#faf0f0", src:"https://image.univstore.com/20250317_bose_brandweek_faf0f0_web_maintop.png"},
+    {id:12, color:"#ffe0ed", src:"https://image.univstore.com/20250407_perfumehub_brandweek_web_maintop.png"},
+    {id:0, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_mba_m4_preorder_164200_web_maintop.jpg"},
+  ];
 
-  function slideChange (idx) {
-    setColor(Slides[idx].color)
-  }
+  const SlideLength = Slides.length;
 
-  function leftButtonClick(){
-    if (index === 0) {
-      setIndex(Slides.length-1); 
-      slideChange(Slides.length-1);
-    }
-    else {
-      setIndex(index-1); 
-      slideChange(index-1);
-    }
-  }
-
-  function rightButtonClick(){
-    if (index === Slides.length-1) {
-      setIndex(0);
-      slideChange(0);
-    }
-    else {
-      setIndex(index+1); 
-      slideChange(index+1);
+  function slideChange(idx) {
+    if (!isTransition.current) {
+      if (idx === -1 || idx === SlideLength) return;
+      isTransition.current = true;
+      console.log(isTransition.current);
+      setTransition(true);
+      setIndex(idx);
+      setColor(Slides[idx].color);
+      if (idx === 0 || idx === SlideLength-1) {
+        setTimeout(()=>{
+          setTransition(false);
+          idx === 0 ? setIndex(SlideLength-2) : setIndex(1);
+        }, 500);
+      }
+      setTimeout(()=>{isTransition.current = false}, 500);
     }
   }
 
   return (
     <MainPageLayout className="MainPage">
-      <MainBanner className="MainBanner" style={{backgroundColor:color}}>
+      <MainBanner className="MainBanner" style={{backgroundColor:col}}>
         <Carousel className="Carousel">
           <CarouselInner className="CarouselInner">
             <SliderWrapper>
-              <div style={{
-                display: "flex",
-                transitionDuration: "300ms",
-                transform: `translateX(${-(100/16) * (index)}%)`
-              }}>
-                {Slides.map((img, index)=>{
+              <div 
+                style={{
+                  display: "flex",
+                  transition: transition ? `transform 0.5s ease-in-out` : `transform 0s ease-in-out`,
+                  transform: `translateX(${-(100/SlideLength) * (index)}%)`
+                }}
+                >
+                {Slides.map((img, idx)=>{
                   return (
                     <a href="#!">
-                      <img key={index} src={img.src} alt="slide img" style={{
+                      <img key={idx} src={img.src} alt="slide img" style={{
                       }}>
                       </img>
                     </a>
@@ -72,35 +69,8 @@ export default function MainPageBasic() {
                 })}
               </div>
             </SliderWrapper>
-            <div className='swiper-button-prev' style={{
-              backgroundImage: `url("https://www.univstore.com/image/ic-arrow-forward-black.png")`,
-              left: 0,
-              transform: `rotate(180deg)`,
-              backgroundSize: "24px",
-              backgroundPosition: `center`,
-              backgroundRepeat: `no-repeat`,
-              top: 0,
-              width: "48px",
-              height: "100%",
-              backgroundPositionX: "16px",
-              right: "auto",
-              position: "absolute"
-            }} onClick={()=>{leftButtonClick()}}>
-            </div>
-            <div className='swiper-button-next' style={{
-              backgroundImage: `url("https://www.univstore.com/image/ic-arrow-forward-black.png")`,
-              right: 0,
-              backgroundSize: "24px",
-              backgroundPosition: `center`,
-              backgroundRepeat: `no-repeat`,
-              top: 0,
-              width: "48px",
-              height: "100%",
-              backgroundPositionX: "16px",
-              left: "auto",
-              position: "absolute"
-            }} onClick={()=>{rightButtonClick()}}>
-            </div>
+            <SwiperButtonPrev onClick={()=>{slideChange(index-1)}}></SwiperButtonPrev>
+            <SwiperButtonNext onClick={()=>{slideChange(index+1)}}></SwiperButtonNext>
           </CarouselInner>
         </Carousel>
       </MainBanner>
@@ -133,5 +103,33 @@ const SliderWrapper = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-  transition: transform 0.5s ease-in-out;
+`;
+
+const SwiperButtonPrev = styled.div`
+  background-image: url("https://www.univstore.com/image/ic-arrow-forward-black.png");
+  left: 0;
+  transform: rotate(180deg);
+  background-size: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  top: 0;
+  width: 48px;
+  height: 100%;
+  background-position-x: 16px;
+  right: auto;
+  position: absolute;
+`;
+
+const SwiperButtonNext = styled.div`
+  background-image: url("https://www.univstore.com/image/ic-arrow-forward-black.png");
+  right: 0;
+  background-size: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  top: 0;
+  width: 48px;
+  height: 100%;
+  background-position-x: 6px;
+  left: auto;
+  position: absolute;
 `;
