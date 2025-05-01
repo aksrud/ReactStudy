@@ -1,93 +1,115 @@
-import {useRef, useState } from "react";
+import axios from "axios";
+import {useEffect, useRef, useState, useMemo } from "react";
 import styled from "styled-components";
 
 export default function MainPageBasic() {
-  const [col, setColor] = useState("#FFFFFF");
-  const [index, setIndex] = useState(1);
-  const [transition, setTransition] = useState(true);
-  const isTransition = useRef(false);
+  const [slides, setSlides] = useState([]);
+  const [slideLength, setSlideLength] = useState(0);
 
-  const Slides = [
-    {id:12, color:"#ffe0ed", src:"https://image.univstore.com/20250407_perfumehub_brandweek_web_maintop.png"},
-    {id:0, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_mba_m4_preorder_164200_web_maintop.jpg"},
-    {id:1, color:"#6588b8", src:"https://image.univstore.com/20250403_samsung_galaxytabs10fe_6688b9_web_maintop.png"},
-    {id:2, color:"#FFFFFF", src:"https://image.univstore.com/20250403_apple_ipadair_m3_preorder_web_maintop.jpg"},
-    {id:3, color:"#e6ffe5", src:"https://image.univstore.com/20250401_samsung_galaxybook5_promotion_e6ffe5_web_maintop.png"},
-    {id:4, color:"#ddddff", src:"https://image.univstore.com/20250113_dyson_dyson_brandweek_web_maintop_DDDDFE.png"},
-    {id:5, color:"#ebdcd7", src:"https://image.univstore.com/20250217_sony_audio_brandweek_ebdcd7_web_maintop.png"},
-    {id:6, color:"#dae7e9", src:"https://image.univstore.com/20250211_samsung_tabphone_web_maintop.png"},
-    {id:7, color:"#cecece", src:"https://image.univstore.com/20250407_canon_powershotv1_launching_web_maintop_CFCFCF.jpg"},
-    {id:8, color:"#c9ced2", src:"https://image.univstore.com/20250219_sennheiser_nukak_v2_c9ced2_web_maintop.png"},
-    {id:9, color:"#fbd9ed", src:"https://image.univstore.com/20250407_lg_gram_lunarlake_launching_rev2_fbd8ec_web_maintop.png"},
-    {id:10, color:"#fff8f3", src:"https://image.univstore.com/20250407_microsoft_windows11_eos_fff8f3_web_maintop.png"},
-    {id:11, color:"#faf0f0", src:"https://image.univstore.com/20250317_bose_brandweek_faf0f0_web_maintop.png"},
-    {id:12, color:"#ffe0ed", src:"https://image.univstore.com/20250407_perfumehub_brandweek_web_maintop.png"},
-    {id:0, color:"#FFFFFF", src:"https://image.univstore.com/20250327_apple_mba_m4_preorder_164200_web_maintop.jpg"},
-  ];
+  const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
+  const [slideIndex, setSlideIndex] = useState(1);
+  const [transition, setTransition] = useState(false);
+  const isTransitioning = useRef(false);
 
-  const SlideLength = Slides.length;
+  const realIndex = useMemo(()=>{
+    if (slideIndex === 0) return slideLength-3; // 더미 인덱스 -2 && 인덱스 -1
+    if (slideIndex === slideLength-1) return 0;
+    return slideIndex-1;
+  }, [slideIndex, slideLength]);
 
+  // 슬라이드와 슬라이드의 길이를 가져오기
+  useEffect(()=>{
+    axios({
+      method: "get",
+      url: "http://localhost:3001/slides",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((res)=>{
+      const data = res.data;
+      setSlides([
+        data[data.length-1],
+        ...data,
+        data[0]
+      ]);
+      setSlideLength(data.length+2);
+      setBackgroundColor(data[0].color);
+    }).catch((err)=>{
+      console.error(err);
+    })
+  }, 
+  []);
+
+  // 슬라이드 움직이기 && 배경 색상 바꾸기
   function slideChange(idx) {
-    if (!isTransition.current) {
-      if (idx === -1 || idx === SlideLength) return;
-      isTransition.current = true;
-      console.log(isTransition.current);
+    if (!isTransitioning.current) {
+
+      if (idx === -1 || idx === slideLength) return;
+      isTransitioning.current = true;
       setTransition(true);
-      setIndex(idx);
-      setColor(Slides[idx].color);
-      if (idx === 0 || idx === SlideLength-1) {
+      setSlideIndex(idx);
+      setBackgroundColor(slides[idx].color);
+
+      if (idx === 0 || idx === slideLength-1) {
         setTimeout(()=>{
           setTransition(false);
-          idx === 0 ? setIndex(SlideLength-2) : setIndex(1);
+          idx === 0 ? setSlideIndex(slideLength-2) : setSlideIndex(1);
+          isTransitioning.current = false
         }, 500);
+        return
       }
-      setTimeout(()=>{isTransition.current = false}, 500);
+
+      setTimeout(()=>{isTransitioning.current = false}, 500);
     }
   }
 
   return (
     <MainPageLayout className="MainPage">
-      <MainBanner className="MainBanner" style={{backgroundColor:col}}>
+      <MainBanner className="MainBanner" style={{backgroundColor:backgroundColor}}>
         <Carousel className="Carousel">
           <CarouselInner className="CarouselInner">
             <SliderWrapper>
               <div 
                 style={{
                   display: "flex",
-                  transition: transition ? `transform 0.5s ease-in-out` : `transform 0s ease-in-out`,
-                  transform: `translateX(${-(100/SlideLength) * (index)}%)`
-                }}
-                >
-                {Slides.map((img, idx)=>{
-                  return (
-                    <a href="#!">
-                      <img key={idx} src={img.src} alt="slide img" style={{
-                      }}>
-                      </img>
-                    </a>
-                  );
-                })}
+                  transition: transition ? `transform 0.5s ease-in-out` : `none`,
+                  transform: `translateX(${-(100/slideLength) * (slideIndex)}%)`
+                }}>
+                {
+                  slides.map((img, idx)=>{
+                    return (
+                      <a href="#!">
+                        <img key={idx} src={img.src} alt="slide img">
+                        </img>
+                      </a>
+                    );
+                  })
+                }
               </div>
             </SliderWrapper>
-            <SwiperButtonPrev onClick={()=>{slideChange(index-1)}}></SwiperButtonPrev>
-            <SwiperButtonNext onClick={()=>{slideChange(index+1)}}></SwiperButtonNext>
+
+            <SwiperButtonPrev onClick={()=>{slideChange(slideIndex-1)}}></SwiperButtonPrev>
+            <SwiperButtonNext onClick={()=>{slideChange(slideIndex+1)}}></SwiperButtonNext>
+
             <SwiperNav>
-              {Array(SlideLength-2)
-              .fill()
-              .map((_, idx)=>{
-                return (
-                  <SwiperNavButton
-                    key={idx}
-                    onClick={()=>slideChange(idx+1)}
-                    style={{
-                      backgroundColor : "#000",
-                      opacity: (index !== idx) ? ".2" : ""
-                    }}
-                  ></SwiperNavButton>
-                );
-              })
+              {
+                slideLength !== 0 ? Array(slideLength-2)
+                  .fill()
+                  .map((_, idx)=>{
+                    return (
+                      <SwiperNavButton
+                        key={idx}
+                        onClick={()=>slideChange(idx+1)}
+                        style={{
+                          backgroundColor : "#000",
+                          opacity: (realIndex !== idx) ? ".2" : ""
+                        }}
+                      ></SwiperNavButton>
+                    );
+                  }) : null
               }
             </SwiperNav>
+
           </CarouselInner>
         </Carousel>
       </MainBanner>
