@@ -1,8 +1,9 @@
-import axios from "axios";
-import {useEffect, useRef, useState, useMemo } from "react";
+import {useRef, useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
+import useFetch from "../../hooks/useFetchData";
 
 export default function MainPageBasic() {
+  const {data, loading} = useFetch("http://localhost:3001/slides");
   const [slides, setSlides] = useState([]);
   const [slideLength, setSlideLength] = useState(0);
 
@@ -19,14 +20,7 @@ export default function MainPageBasic() {
 
   // 슬라이드와 슬라이드의 길이를 가져오기
   useEffect(()=>{
-    axios({
-      method: "get",
-      url: "http://localhost:3001/slides",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    }).then((res)=>{
-      const data = res.data;
+    if (!loading && data) {
       setSlides([
         data[data.length-1],
         ...data,
@@ -34,11 +28,8 @@ export default function MainPageBasic() {
       ]);
       setSlideLength(data.length+2);
       setBackgroundColor(data[0].color);
-    }).catch((err)=>{
-      console.error(err);
-    })
-  }, 
-  []);
+    }
+  }, [data, loading]);
 
   // 슬라이드 움직이기 && 배경 색상 바꾸기
   function slideChange(idx) {
@@ -58,7 +49,6 @@ export default function MainPageBasic() {
         }, 500);
         return
       }
-
       setTimeout(()=>{isTransitioning.current = false}, 500);
     }
   }
@@ -69,23 +59,26 @@ export default function MainPageBasic() {
         <Carousel className="Carousel">
           <CarouselInner className="CarouselInner">
             <SliderWrapper>
-              <div 
-                style={{
-                  display: "flex",
-                  transition: transition ? `transform 0.5s ease-in-out` : `none`,
-                  transform: `translateX(${-(100/slideLength) * (slideIndex)}%)`
-                }}>
-                {
-                  slides.map((img, idx)=>{
-                    return (
-                      <a href="#!">
-                        <img key={idx} src={img.src} alt="slide img">
-                        </img>
-                      </a>
-                    );
-                  })
-                }
-              </div>
+              {
+                loading ? <div>Loading...</div> 
+                : <div 
+                  style={{
+                    display: "flex",
+                    transition: transition ? `transform 0.5s ease-in-out` : `none`,
+                    transform: `translateX(${-(100/slideLength) * (slideIndex)}%)`
+                  }}>
+                  {
+                    slides.map((img, idx)=>{
+                      return (
+                        <a href="#!">
+                          <img key={idx} src={img.src} alt="slide img">
+                          </img>
+                        </a>
+                      );
+                    })
+                  }
+                </div>
+              }
             </SliderWrapper>
 
             <SwiperButtonPrev onClick={()=>{slideChange(slideIndex-1)}}></SwiperButtonPrev>
